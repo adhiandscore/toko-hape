@@ -55,10 +55,9 @@
             <a href="#" class="block py-2 text-gray-700 hover:text-blue-600">Services</a>
             <a href="#" class="block py-2 text-gray-700 hover:text-blue-600">Contact</a>
             <div class="mt-4 border-t pt-4">
-                <a href="#" class="block text-sm text-blue-600 hover:underline mb-2">Login</a>
-                <a href="#"
-                    class="block text-center bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 text-sm">Sign
-                    Up</a>
+                <a href=" {{ route('filament.admin.auth.logout') }} " class="block text-sm text-blue-600 hover:underline mb-2">Logout</a>
+                <a href=" {{ route('filament.admin.pages.dashboard') }} "
+                    class="block text-center bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 text-sm">masuk</a>
             </div>
         </div>
     </nav>
@@ -143,7 +142,7 @@
         <!-- KANAN: Komponen Login -->
         <div class="md:w-1/2 p-8 flex flex-col justify-center items-center">
             <h1 class="text-2xl font-bold text-center mb-4">Masuk ke Dashboard</h1>
-            <a href="/login"
+            <a href="{{ route('filament.admin.pages.dashboard') }}"
                 class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 text-sm transition">Masuk</a>
         </div>
     </div>
