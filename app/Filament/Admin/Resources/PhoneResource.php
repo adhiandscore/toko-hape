@@ -12,6 +12,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\FileUpload;
 
 class PhoneResource extends Resource
 {
@@ -23,7 +25,21 @@ class PhoneResource extends Resource
     {
         return $form
             ->schema([
-                //
+                
+                TextInput::make('name')
+                    ->required()
+                    ->placeholder('Enter brand name'),
+                
+                FileUpload::make('logo')
+                    ->label('Brand Logo')
+                    ->image()
+                    ->required()
+                    ->mimeTypeMap([
+                        'image/jpeg' => 'jpg',
+                        'image/png' => 'png',
+                        'image/gif' => 'gif',
+                    ])
+                  
             ]);
     }
 
