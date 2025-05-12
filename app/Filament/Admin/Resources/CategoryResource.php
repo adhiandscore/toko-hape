@@ -27,18 +27,15 @@ class CategoryResource extends Resource
             ->schema([
                 
                 TextInput::make('name')
+                    ->label('Category Name')
                     ->required()
-                    ->placeholder('Enter brand name'),
+                    ->placeholder('Enter category name'),
                 
-                FileUpload::make('logo')
-                    ->label('Brand Logo')
+                FileUpload::make('icon')
+                    ->label('icon')
                     ->image()
                     ->required()
-                    ->mimeTypeMap([
-                        'image/jpeg' => 'jpg',
-                        'image/png' => 'png',
-                        'image/gif' => 'gif',
-                    ])
+                    ->uploadingMessage('Uploading image...'),
                   
             ]);
     }
@@ -47,7 +44,18 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('name')
+                    ->sortable()
+                    ->searchable()
+                    ->label('Category Name'),
+
+                Tables\Columns\ImageColumn::make('icon')
+                    ->circular()
+                    ->size(30),
+
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->label('Created At'),
             ])
             ->filters([
                 //

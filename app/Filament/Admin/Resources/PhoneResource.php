@@ -3,17 +3,13 @@
 namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\PhoneResource\Pages;
-use App\Filament\Admin\Resources\PhoneResource\RelationManagers;
 use App\Models\Phone;
 use Filament\Forms;
+use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\FileUpload;
 
 class PhoneResource extends Resource
 {
@@ -25,21 +21,58 @@ class PhoneResource extends Resource
     {
         return $form
             ->schema([
-                
-                TextInput::make('name')
-                    ->required()
-                    ->placeholder('Enter brand name'),
-                
-                FileUpload::make('logo')
-                    ->label('Brand Logo')
-                    ->image()
-                    ->required()
-                    ->mimeTypeMap([
-                        'image/jpeg' => 'jpg',
-                        'image/png' => 'png',
-                        'image/gif' => 'gif',
+
+
+                Fieldset::make('phone details')
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->label('Phone Name')
+                            ->required()
+                            ->placeholder('Enter phone name')
+                            ->maxLength(255),
+
+                        Forms\Components\TextInput::make('price')
+                            ->required()
+                            ->placeholder('Enter phone price')
+                            ->numeric()
+                            ->prefix('IDR'),
+
+                        Forms\Components\FileUpload::make('thumbnail')
+                            ->image()
+                            ->required()
+                            ->uploadingMessage('Uploading image...'),
+                    ]),
+
+                Fieldset::make('informasi tambahan')
+                    ->schema([
+                        Forms\Components\TextInput::make('about')
+                            ->label('Phone Detail')
+                            ->required()
+                            ->placeholder('Enter phone detail'),
+
+                        Forms\Components\Select::make('is popular?')
+                            ->options([
+                                true => 'Popular',
+                                False => 'not popular'
+                            ])
+                            ->required(),
+                        Forms\Components\Select::make('brand_id')
+                            ->relationship('brand', 'name')
+                            ->searchable()
+                            ->required()
+                            ->preload(),
+                        Forms\Components\Select::make('category_id')
+                            ->relationship('category', 'name')
+                            ->searchable()
+                            ->required()
+                            ->preload(),
+
+                        Forms\Components\TextInput::make('stock')
+                            ->required()
+                            ->numeric()
+                            ->prefix('Qty'),
                     ])
-                  
+
             ]);
     }
 

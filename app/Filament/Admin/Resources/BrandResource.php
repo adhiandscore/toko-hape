@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\FileUpload;
 
+
 class BrandResource extends Resource
 {
     protected static ?string $model = Brand::class;
@@ -25,21 +26,20 @@ class BrandResource extends Resource
     {
         return $form
             ->schema([
-                
+
                 TextInput::make('name')
                     ->required()
                     ->placeholder('Enter brand name'),
-                
+
                 FileUpload::make('logo')
-                    ->label('Brand Logo')
-                    ->image()
+                ->label('Brand Logo')
+                ->image()
                     ->required()
-                    ->mimeTypeMap([
-                        'image/jpeg' => 'jpg',
-                        'image/png' => 'png',
-                        'image/gif' => 'gif',
-                    ])
-                  
+                    ->uploadingMessage('Uploading image...')
+                    ->imagePreviewHeight(250)
+                    ->imageCropAspectRatio('1:1')
+                    ->imageResizeTargetWidth(250),
+
             ]);
     }
 
@@ -51,15 +51,15 @@ class BrandResource extends Resource
                     ->sortable()
                     ->searchable()
                     ->label('Brand Name'),
-                
+
                 Tables\Columns\ImageColumn::make('logo')
-                    ->label('Logo')
-                    ->circular(),
-                
+                    ->circular()
+                    ->size(30),
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->label('Created At'),
-                
+
             ])->filters([
                 //
 
